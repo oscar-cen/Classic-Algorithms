@@ -1,3 +1,6 @@
+## greedily select a remaining edge with the smallest weight which does not form a cycle.
+
+
 def kruskal(graph):
     nodes = graph.keys()   ## ["s1" to "s5"]
     visited = set()        ## visited nodes; 
