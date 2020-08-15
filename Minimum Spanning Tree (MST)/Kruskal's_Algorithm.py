@@ -13,9 +13,7 @@ def find_set(vertice):
         return parent[vertice]
 
 
-# joins two sets: set, which includes 'vertice1' and set, which
-
-# includes 'vertice2'
+# joins two sets: set 1, which includes 'vertice1' and set 2, which includes 'vertice2'
 
 def union(u, v, edges):
     ancestor1 = find_set(u)
