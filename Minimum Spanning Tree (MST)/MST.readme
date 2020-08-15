@@ -1,0 +1,5 @@
+Given a weighted graph G, find a subgraph T such that:
+1. All the vertices on G are connected on T,
+2. The total weight, defined as the sum of the weight of all the edges in T, is minimized.
+
+The graph T is a minimum spanning tree for G.
