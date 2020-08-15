@@ -1,35 +1,80 @@
 ## greedily select a remaining edge with the smallest weight which does not form a cycle.
 
+parent = dict()
+
+def make_set(vertice):
+    parent[vertice] = vertice
+
+# returns first element of set
+def find_set(vertice):
+    if parent[vertice] != vertice:
+        return find_set(parent[vertice])
+    else:
+        return parent[vertice]
+
+
+# joins two sets: set, which includes 'vertice1' and set, which
+
+# includes 'vertice2'
+
+def union(u, v, edges):
+    ancestor1 = find_set(u)
+    ancestor2 = find_set(v)
+
+    # if u and v are not connected by a path
+    if ancestor1 != ancestor2:
+            parent[ancestor1] = ancestor2
+
 
 def kruskal(graph):
-    nodes = graph.keys()   ## ["s1" to "s5"]
-    visited = set()        ## visited nodes; 
-                           ## NOTE: it's a set (no duplicate nodes)
-    path = []              ## printed path (not necessarily sequential)
-    
-    while len(visited) < len(nodes):
-        distance = float('inf') 
-        for s in nodes:
-            for d in nodes:
-                if s in visited and d in visited or s == d:
-                    continue
-                if graph[s][d] < distance:
-                    distance = graph[s][d]
-                    one = s
-                    two = d
-        path.append((one, two))
-        visited.add(one)
-        visited.add(two)
+    mst = set()
+    # puts all the vertices in seperate sets
+    for vertice in graph['V']:
+        make_set(vertice)
 
-    return path
+    edges = list(graph['E'])
+    # sorts edges in ascending order
+    edges.sort()
+    for edge in edges:
+        weight, u, v = edge
+        
+        # checks if current edge do not close cycle
+        if find_set(u) != find_set(v):
+            mst.add(edge)
+            union(u, v, edges)
+# mst is a set of selected edges
+    return mst
 
 
-if __name__ == '__main__':
-    graph_dict = {"s1":{"s1": 0, "s2": 6, "s3": 3, "s4": 4, "s5":7},             ## should be symmetric
-                    "s2":{"s1": 6, "s2": 0, "s3": 10, "s4": 8, "s5":9},
-                    "s3":{"s1": 3, "s2": 10, "s3": 0, "s4":2, "s5":1},
-                    "s4":{"s1": 4, "s2": 8, "s3": 2, "s4":0,"s5":11},
-                    "s5":{"s1": 7, "s2": 9, "s3": 1, "s4":11,"s5":0},
-    }
-    path = kruskal(graph_dict)
-    print(path)
+# input graph
+graph = {
+        'V': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+        'E': set([
+            (2, '1', '2'),       # weight, one node, another node
+            (2, '1', '3'),
+            (2, '2', '3'),
+            (1, '2', '6'),
+            (1, '3', '4'),
+            (5, '4', '6'),
+            (4, '6', '7'),
+            (7, '4', '5'),
+            (6, '7', '5'),
+            (1, '4', '10'),
+            (2, '5', '10'),
+            (8, '5', '8'),
+            (2, '5', '9'),
+            (3, '8', '9'),
+            ])
+        }
+
+
+mst = kruskal(graph)
+print("Minimal Spanning Tree:")
+print(mst)
+mst_weight = 0
+for edge in mst:
+    weight, u, v = edge
+    mst_weight += weight
+
+print("Cost: ")
+print(mst_weight)
