@@ -3,3 +3,5 @@ Given a weighted graph G, find a subgraph T such that:
 2. The total weight, defined as the sum of the weight of all the edges in T, is minimized.
 
 The graph T is a minimum spanning tree for G.
+
+Kruskal's: O(m*logn)   with m edges and n nodes.
