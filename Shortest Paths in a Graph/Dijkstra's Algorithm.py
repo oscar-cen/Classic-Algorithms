@@ -1,4 +1,5 @@
 # directed graph
+# non-negative weight
 
 
 from collections import defaultdict
